@@ -2,6 +2,26 @@
 
 Package hi allows you to find images for a given hashtag
 
+Usage
+
+A small usage example
+
+		package main
+
+		import (
+			"fmt"
+
+			"github.com/peterhellberg/hi"
+		)
+
+		func main() {
+			images, err := hi.FindShuffledImages("pixel_dailies")
+
+			if err == nil && len(images) > 0 {
+				fmt.Println(images[0].URL)
+			}
+		}
+
 */
 package hi
 
