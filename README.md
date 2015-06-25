@@ -34,6 +34,10 @@ func main() {
 }
 ```
 
+## Dependencies
+
+The scraping is performed using the lovely [github.com/PuerkitoBio/goquery](https://github.com/PuerkitoBio/goquery)
+
 ## License (MIT)
 
 Copyright (c) 2015 [Peter Hellberg](http://c7.se/)
