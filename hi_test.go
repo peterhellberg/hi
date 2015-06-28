@@ -6,6 +6,14 @@ import (
 	"testing"
 )
 
+func TestNewScraper(t *testing.T) {
+	s := NewScraper("foobar")
+
+	if s.URL != "https://twitter.com/hashtag/foobar?f=images" {
+		t.Errorf(`unexpected url %q`, s.URL)
+	}
+}
+
 func TestFindImages(t *testing.T) {
 	for _, tt := range []struct {
 		body     []byte
