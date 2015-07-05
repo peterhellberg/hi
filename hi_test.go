@@ -70,6 +70,60 @@ func TestFindImage(t *testing.T) {
 	}
 }
 
+func TestImage(t *testing.T) {
+	server, scraper := testServerAndScraper(twoImagesBody)
+	defer server.Close()
+
+	img, err := scraper.FindImage()
+
+	if err != nil {
+		t.Fatalf(`unexpected error: %v`, err)
+	}
+
+	var (
+		imageURL           = "foo"
+		imageItemID        = "123"
+		imageTweetID       = "456"
+		imageHeight        = "100"
+		imageWidth         = "200"
+		imageName          = "Full Name"
+		imageScreenName    = "screen-name"
+		imagePermalinkPath = "/permalink/path/"
+	)
+
+	if img.URL != imageURL {
+		t.Errorf(`unexpected image URL: %q, want %q`, img.URL, imageURL)
+	}
+
+	if img.ItemID != imageItemID {
+		t.Errorf(`unexpected image ItemID: %q, want %q`, img.ItemID, imageItemID)
+	}
+
+	if img.TweetID != imageTweetID {
+		t.Errorf(`unexpected image TweetID: %q, want %q`, img.TweetID, imageTweetID)
+	}
+
+	if img.Height != imageHeight {
+		t.Errorf(`unexpected image Height: %q, want %q`, img.Height, imageHeight)
+	}
+
+	if img.Width != imageWidth {
+		t.Errorf(`unexpected image Width: %q, want %q`, img.Width, imageWidth)
+	}
+
+	if img.Name != imageName {
+		t.Errorf(`unexpected image Name: %q, want %q`, img.Name, imageName)
+	}
+
+	if img.ScreenName != imageScreenName {
+		t.Errorf(`unexpected image ScreenName: %q, want %q`, img.ScreenName, imageScreenName)
+	}
+
+	if img.PermalinkPath != imagePermalinkPath {
+		t.Errorf(`unexpected image PermalinkPath: %q, want %q`, img.PermalinkPath, imagePermalinkPath)
+	}
+}
+
 func TestFindShuffledImage(t *testing.T) {
 	for _, tt := range []struct {
 		body []byte
@@ -113,7 +167,7 @@ var noImagesBody = []byte(`
 var twoImagesBody = []byte(`
 <html>
 	<body>
-		<span class="AdaptiveStreamGridImage" data-url="foo"></span>
+		<span class="AdaptiveStreamGridImage" data-url="foo" data-item-id="123" data-tweet-id="456" data-height="100" data-width="200" data-name="Full Name" data-screen-name="screen-name" data-permalink-path="/permalink/path/"></span>
 		<span class="AdaptiveStreamGridImage" data-url="bar"></span>
 	</body>
 </html>`)

@@ -40,12 +40,15 @@ var (
 
 // Image contains the fields for an image
 type Image struct {
-	URL     string
-	ItemID  string
-	TweetID string
-	Height  string
-	Width   string
-	Ratio   string
+	URL           string
+	ItemID        string
+	TweetID       string
+	Height        string
+	Width         string
+	Ratio         string
+	Name          string
+	ScreenName    string
+	PermalinkPath string
 }
 
 // Scraper holds references to the URL and parsed goquery document
@@ -77,11 +80,14 @@ func (s *Scraper) FindImages() ([]Image, error) {
 	s.Document.Find("span.AdaptiveStreamGridImage").Each(func(i int, s *goquery.Selection) {
 		if dataURL, ok := s.Attr("data-url"); ok {
 			images = append(images, Image{
-				URL:     dataURL,
-				ItemID:  s.AttrOr("data-item-id", ""),
-				TweetID: s.AttrOr("data-tweet-id", ""),
-				Height:  s.AttrOr("data-height", ""),
-				Width:   s.AttrOr("data-width", ""),
+				URL:           dataURL,
+				ItemID:        s.AttrOr("data-item-id", ""),
+				TweetID:       s.AttrOr("data-tweet-id", ""),
+				Height:        s.AttrOr("data-height", ""),
+				Width:         s.AttrOr("data-width", ""),
+				Name:          s.AttrOr("data-name", ""),
+				ScreenName:    s.AttrOr("data-screen-name", ""),
+				PermalinkPath: s.AttrOr("data-permalink-path", ""),
 			})
 		}
 	})
