@@ -6,21 +6,21 @@ Usage
 
 A small usage example
 
-		package main
+    package main
 
-		import (
-			"fmt"
+    import (
+    	"fmt"
 
-			"github.com/peterhellberg/hi"
-		)
+    	"github.com/peterhellberg/hi"
+    )
 
-		func main() {
-			images, err := hi.FindShuffledImages("pixel_dailies")
+    func main() {
+    	images, err := hi.FindShuffledImages("pixel_dailies")
 
-			if err == nil && len(images) > 0 {
-				fmt.Println(images[0].URL)
-			}
-		}
+    	if err == nil && len(images) > 0 {
+    		fmt.Println(images[0].URL)
+    	}
+    }
 
 */
 package hi
