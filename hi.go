@@ -26,10 +26,16 @@ A small usage example
 package hi
 
 import (
+	"errors"
 	"math/rand"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
+)
+
+var (
+	// ErrNoImagesFound is the error returned when no images were found
+	ErrNoImagesFound = errors.New("no images found")
 )
 
 // Image contains the fields for an image
@@ -83,21 +89,19 @@ func (s *Scraper) FindImages() ([]Image, error) {
 	return images, nil
 }
 
+// FindImage finds image
+func (s *Scraper) FindImage() (Image, error) {
+	return singleImage(s.FindImages())
+}
+
 // FindShuffledImages finds images and shuffles them
 func (s *Scraper) FindShuffledImages() ([]Image, error) {
-	rand.Seed(time.Now().UnixNano())
+	return shuffledImages(s.FindImages())
+}
 
-	images, err := s.FindImages()
-	if err != nil {
-		return images, err
-	}
-
-	for i := range images {
-		j := rand.Intn(i + 1)
-		images[i], images[j] = images[j], images[i]
-	}
-
-	return images, nil
+// FindShuffledImage finds shuffled image
+func (s *Scraper) FindShuffledImage() (Image, error) {
+	return singleImage(s.FindShuffledImages())
 }
 
 // FindShuffledImages first creates a scraper, then finds images and shuffles them
@@ -105,7 +109,44 @@ func FindShuffledImages(hashtag string) ([]Image, error) {
 	return NewScraper(hashtag).FindShuffledImages()
 }
 
+// FindShuffledImage first creates a scraper, then finds shuffled image
+func FindShuffledImage(hashtag string) (Image, error) {
+	return NewScraper(hashtag).FindShuffledImage()
+}
+
 // FindImages first creates a scraper, then finds images
 func FindImages(hashtag string) ([]Image, error) {
 	return NewScraper(hashtag).FindImages()
+}
+
+// FindImage first creates a scraper, then finds image
+func FindImage(hashtag string) (Image, error) {
+	return NewScraper(hashtag).FindImage()
+}
+
+func singleImage(images []Image, err error) (Image, error) {
+	if err != nil {
+		return Image{}, err
+	}
+
+	if len(images) == 0 {
+		return Image{}, ErrNoImagesFound
+	}
+
+	return images[0], nil
+}
+
+func shuffledImages(images []Image, err error) ([]Image, error) {
+	if err != nil {
+		return images, err
+	}
+
+	rand.Seed(time.Now().UnixNano())
+
+	for i := range images {
+		j := rand.Intn(i + 1)
+		images[i], images[j] = images[j], images[i]
+	}
+
+	return images, nil
 }
