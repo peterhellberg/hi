@@ -9,18 +9,18 @@ A small usage example
     package main
 
     import (
-    	"fmt"
+      "fmt"
 
-    	"github.com/peterhellberg/hi"
+      "github.com/peterhellberg/hi"
     )
 
     func main() {
-    	images, err := hi.FindShuffledImages("pixel_dailies")
+      image, err := hi.FindShuffledImage("pixel_dailies")
 
-    	if err == nil && len(images) > 0 {
-    		fmt.Println(images[0].URL)
-    	}
-    }
+      if err == nil {
+				fmt.Println(image.URL)
+			}
+		}
 
 */
 package hi
