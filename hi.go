@@ -18,9 +18,9 @@ A small usage example
       image, err := hi.FindShuffledImage("pixel_dailies")
 
       if err == nil {
-				fmt.Println(image.URL)
-			}
-		}
+        fmt.Println(image.URL)
+      }
+    }
 
 */
 package hi
