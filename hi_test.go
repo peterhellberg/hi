@@ -1,6 +1,7 @@
 package hi
 
 import (
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -145,6 +146,22 @@ func TestFindShuffledImage(t *testing.T) {
 		if err == nil && img.URL == "" {
 			t.Errorf(`no image url`)
 		}
+	}
+}
+
+func TestSingleImage_withError(t *testing.T) {
+	testErr := errors.New("test error for singleImage")
+
+	if _, err := singleImage(nil, testErr); err != testErr {
+		t.Fatalf(`unexpected error: %v`, err)
+	}
+}
+
+func TestShuffledImages_withError(t *testing.T) {
+	testErr := errors.New("test error for shuffledImages")
+
+	if _, err := shuffledImages(nil, testErr); err != testErr {
+		t.Fatalf(`unexpected error: %v`, err)
 	}
 }
 
