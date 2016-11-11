@@ -9,7 +9,7 @@ import (
 func TestNoArguments(t *testing.T) {
 	out, _ := execGo("run", "main.go")
 
-	if out != "Missing hashtag\n" {
+	if out != "Missing hashtag\nexit status 1\n" {
 		t.Fatalf(`unexpected output %q`, out)
 	}
 }
@@ -21,11 +21,11 @@ func TestUsageInstructions(t *testing.T) {
 		t.Fatalf(`expected usage instructions`)
 	}
 
-	if !strings.Contains(out, "-l=3: limit number of images") {
+	if !strings.Contains(out, "-l int") {
 		t.Fatalf(`expected -l flag`)
 	}
 
-	if !strings.Contains(out, "-s=true: shuffle the images") {
+	if !strings.Contains(out, "-s") {
 		t.Fatalf(`expected -s flag`)
 	}
 }
