@@ -40,15 +40,15 @@ var (
 
 // Image contains the fields for an image
 type Image struct {
-	URL           string
-	ItemID        string
-	TweetID       string
-	Height        string
-	Width         string
-	Ratio         string
-	Name          string
-	ScreenName    string
-	PermalinkPath string
+	URL           string `json:"url"`
+	LargeURL      string `json:"large_url"`
+	ItemID        string `json:"item_id"`
+	TweetID       string `json:"tweet_id"`
+	Height        string `json:"height"`
+	Width         string `json:"width"`
+	Name          string `json:"name"`
+	ScreenName    string `json:"screen_name"`
+	PermalinkPath string `json:"permalink_path"`
 }
 
 // Scraper holds references to the URL and parsed goquery document
@@ -81,6 +81,7 @@ func (s *Scraper) FindImages() ([]Image, error) {
 		if dataURL, ok := s.Attr("data-url"); ok {
 			images = append(images, Image{
 				URL:           dataURL,
+				LargeURL:      s.AttrOr("data-resolved-url-large", ""),
 				ItemID:        s.AttrOr("data-item-id", ""),
 				TweetID:       s.AttrOr("data-tweet-id", ""),
 				Height:        s.AttrOr("data-height", ""),
